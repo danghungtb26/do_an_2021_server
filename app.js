@@ -105,6 +105,6 @@ setupGraphql(app)
 
 setuphttp(server)
 
-server.listen(hostApi, () => {
-  console.log(`Server is listening on port ${hostApi}`)
+server.listen(process.env.PORT || hostApi, () => {
+  console.log(`Server is listening on port ${process.env.PORT || hostApi}`)
 })

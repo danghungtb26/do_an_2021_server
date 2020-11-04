@@ -96,6 +96,6 @@ const server = require('http').createServer(app);
 
 (0, _config2.setupGraphql)(app);
 (0, _config2.setuphttp)(server);
-server.listen(_config.hostApi, () => {
-  console.log(`Server is listening on port ${_config.hostApi}`);
+server.listen(process.env.PORT || _config.hostApi, () => {
+  console.log(`Server is listening on port ${process.env.PORT || _config.hostApi}`);
 });
