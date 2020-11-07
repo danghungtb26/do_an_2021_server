@@ -27,9 +27,12 @@ const method = {
       id: this._id,
       name: this.name,
       introduction: this.introduction,
+      avatar: this.avatar,
       email: this.email,
       phone: this.phone,
       role: this.role,
+      product_count: this.product_count,
+      article_count: this.article_count,
       created_at: (0, _moment.default)(this.created_at).format(),
       updated_at: (0, _moment.default)(this.updated_at).format()
     };
@@ -126,6 +129,10 @@ const User = new Schema({
     default: null
   },
   product_count: {
+    type: SchemaTypes.Number,
+    default: 0
+  },
+  article_count: {
     type: SchemaTypes.Number,
     default: 0
   },

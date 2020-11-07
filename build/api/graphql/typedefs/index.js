@@ -15,8 +15,11 @@ const typeDefs = gql`
     name: String
     email: String!
     introduction: String
+    avatar: String
     phone: String
     role: String
+    product_count: Int
+    article_count: Int
     updated_at: String
     created_at: String
     token: String!
