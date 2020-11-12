@@ -14,9 +14,11 @@ var _constants = require("../../constants");
 var _Models = require("../../database/Models");
 
 const addProduct = async (product, auth) => {
+  console.log('auth', auth);
   const user = await (0, _commons.getUser)(auth).then(r => {
     return (0, _commons.getUserById)(`${r.id}`);
   });
+  console.log('user', user);
   if (!user || user.getRole() !== _constants.roles.user) throw new _apolloServerExpress.ValidationError('User not found!');
   return new Promise(resolve => {
     // chạy cùng session để tạo transection

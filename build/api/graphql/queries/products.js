@@ -22,8 +22,6 @@ const ProductQuery = {
   }, {
     auth
   }) => {
-    console.log('keyword', keyword);
-    console.log('keyword', auth);
     return _Models.ProductModel.find().populate('author').populate('owner').skip(skip || 0).limit(limit || 10).sort((0, _commons.getSort)(sort !== null && sort !== void 0 ? sort : [])).then(async r => {
       return {
         data: r.map(e => {
@@ -43,16 +41,18 @@ const ProductQuery = {
   }, {
     auth
   }) => {
-    console.log('auth', auth);
-
     if (typeof id === 'undefined') {
       throw new _apolloServerExpress.ValidationError('Id not found!');
     }
 
-    return _Models.ProductModel.findById(id).populate('author').populate('owner').then(r => ({ ...r.getJson(),
-      author: r.getAuthor().getJson(),
-      owner: r.getOwner().getJson()
-    }));
+    return _Models.ProductModel.findById(id).populate('author').populate('owner').then(r => {
+      var _r$getAuthor, _r$getOwner;
+
+      return { ...(r === null || r === void 0 ? void 0 : r.getJson()),
+        author: r === null || r === void 0 ? void 0 : (_r$getAuthor = r.getAuthor()) === null || _r$getAuthor === void 0 ? void 0 : _r$getAuthor.getJson(),
+        owner: r === null || r === void 0 ? void 0 : (_r$getOwner = r.getOwner()) === null || _r$getOwner === void 0 ? void 0 : _r$getOwner.getJson()
+      };
+    });
   }
 };
 var _default = ProductQuery;

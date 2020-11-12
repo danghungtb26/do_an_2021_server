@@ -13,6 +13,8 @@ var _commons = require("../../commons");
 
 var _Schemas = require("../../database/Schemas");
 
+var _Models = require("../../database/Models");
+
 var _tableName = _interopRequireDefault(require("../../database/tableName"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -29,6 +31,44 @@ const UserQuery = {
         if (!user) throw new _apolloServerExpress.ValidationError('User not found!');
         return user.getJson();
       });
+    });
+  },
+  // func chỉ lấy ra danh sách sản phẩm của user
+  get_user_product_list: async (_, {
+    query: {
+      skip,
+      limit,
+      sort,
+      keyword,
+      user: user_query
+    }
+  }, {
+    auth
+  }) => {
+    const user = await (0, _commons.getUser)(auth);
+    const query_object = user_query && user_query !== user.id ? {
+      owner: user_query,
+      status: 2
+    } : {
+      owner: user.id
+    };
+    return _Models.ProductModel.find({ ...query_object
+    }).populate('author').populate('owner').skip(skip || 0).limit(limit || 10).sort((0, _commons.getSort)(sort !== null && sort !== void 0 ? sort : [{
+      name: 'updated_at',
+      desc: false
+    }])).then(async r => {
+      return {
+        data: r.map(e => {
+          return { ...e.getJson(),
+            author: e.getAuthor().getJson(),
+            owner: e.getOwner().getJson()
+          };
+        }),
+        paging: {
+          count: await _Models.ProductModel.find({ ...query_object
+          }).countDocuments()
+        }
+      };
     });
   }
 };

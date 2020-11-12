@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getUserById = exports.getUser = exports.getJwtToken = void 0;
 
-var _apolloServerExpress = require("apollo-server-express");
-
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 var _config = require("../database/config");
@@ -51,9 +49,9 @@ const getUser = auth => {
     });
 
     _jsonwebtoken.default.verify(token, _config.secretkey, (err, decoded) => {
-      if (err) throw new _apolloServerExpress.AuthenticationError('invalid token!');
+      // if (err)
       resolve({
-        id: decoded.id
+        id: decoded === null || decoded === void 0 ? void 0 : decoded.id
       });
     });
   });

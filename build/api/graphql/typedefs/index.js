@@ -79,6 +79,7 @@ const typeDefs = gql`
   }
 
   input QueryProductInput {
+    user: String
     limit: Int
     skip: Int
     keyword: String
@@ -89,6 +90,7 @@ const typeDefs = gql`
     get_user_info: User!
     get_product_list(query: QueryProductInput): ProductList
     get_product_by_id(id: String): Product
+    get_user_product_list(query: QueryProductInput): ProductList
   }
 
   type Mutation {

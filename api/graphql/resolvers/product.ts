@@ -5,9 +5,11 @@ import { ProductModel, UserModel } from '../../database/Models'
 import { userType } from '../../database/Schemas'
 
 const addProduct = async (product, auth) => {
+  console.log('auth', auth)
   const user = await getUser(auth).then(r => {
     return getUserById(`${r.id}`)
   })
+  console.log('user', user)
 
   if (!user || user.getRole() !== roles.user) throw new ValidationError('User not found!')
 

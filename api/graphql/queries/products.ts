@@ -5,8 +5,6 @@ import { userType } from '../../database/Schemas'
 
 const ProductQuery = {
   get_product_list: async (_, { query: { skip, limit, sort, keyword } }, { auth }) => {
-    console.log('keyword', keyword)
-    console.log('keyword', auth)
     return ProductModel.find()
       .populate('author')
       .populate('owner')
@@ -30,7 +28,6 @@ const ProductQuery = {
   },
 
   get_product_by_id: (_, { id }, { auth }) => {
-    console.log('auth', auth)
     if (typeof id === 'undefined') {
       throw new ValidationError('Id not found!')
     }
@@ -39,9 +36,9 @@ const ProductQuery = {
       .populate('author')
       .populate('owner')
       .then(r => ({
-        ...r.getJson(),
-        author: (r.getAuthor() as userType).getJson(),
-        owner: (r.getOwner() as userType).getJson(),
+        ...r?.getJson(),
+        author: (r?.getAuthor() as userType)?.getJson(),
+        owner: (r?.getOwner() as userType)?.getJson(),
       }))
   },
 }

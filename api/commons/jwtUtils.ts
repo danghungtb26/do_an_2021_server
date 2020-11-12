@@ -33,8 +33,8 @@ export const getUser: (auth: string) => Promise<{ id: string | number }> = auth 
     if (!token) resolve({ id: null })
 
     jwt.verify(token, secretkey, (err, decoded) => {
-      if (err) throw new AuthenticationError('invalid token!')
-      resolve({ id: decoded.id })
+      // if (err)
+      resolve({ id: decoded?.id })
     })
   })
 }
@@ -42,6 +42,6 @@ export const getUser: (auth: string) => Promise<{ id: string | number }> = auth 
 /**
  * func tim user theo id
  */
-export const getUserById: (id: string) => Promise<userType> = id => {
+export const getUserById: (id: string) => Promise<userType | null> = id => {
   return UserModel.findById(id).then(r => r)
 }
