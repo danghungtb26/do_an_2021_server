@@ -1,5 +1,5 @@
 const table = {
-  category: 'categorys',
+  category: 'categories',
   user: 'users',
   product: 'products',
   role: 'roles',

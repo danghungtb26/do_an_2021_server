@@ -5,22 +5,23 @@ import { ProductModel, UserModel } from '../../database/Models'
 import { userType } from '../../database/Schemas'
 
 const addProduct = async (product, auth) => {
-  console.log('auth', auth)
   const user = await getUser(auth).then(r => {
     return getUserById(`${r.id}`)
   })
-  console.log('user', user)
 
   if (!user || user.getRole() !== roles.user) throw new ValidationError('User not found!')
 
   return new Promise(resolve => {
     // chạy cùng session để tạo transection
-    const { title, description, keyword, sort_description } = product
+    const { title, description, keyword, sort_description, budget, deployment_time } = product
     const newProduct = new ProductModel({
       title,
       description,
       keyword,
+      budget,
+      deployment_time,
       sort_description,
+
       author: user.getId(),
       owner: user.getId(),
     })
@@ -95,9 +96,9 @@ const mutation = {
       .populate('author')
       .populate('owner')
       .then(r => ({
-        ...r.getJson(),
-        author: (r.getAuthor() as userType).getJson(),
-        owner: (r.getOwner() as userType).getJson(),
+        ...r?.getJson(),
+        author: (r?.getAuthor() as userType).getJson(),
+        owner: (r?.getOwner() as userType).getJson(),
       }))
   },
 }

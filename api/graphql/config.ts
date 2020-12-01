@@ -1,6 +1,6 @@
 import { hostApi } from '../database/config'
 import queries from './queries'
-import { UserResolvers, ProductResolvers } from './resolvers'
+import { UserResolvers, ProductResolvers, UploadResolvers, resolver } from './resolvers'
 import typeDefs from './typedefs'
 
 const { ApolloServer } = require('apollo-server-express')
@@ -38,6 +38,8 @@ const resolvers = {
   Mutation: {
     ...UserResolvers,
     ...ProductResolvers,
+    ...UploadResolvers,
+    ...resolver,
   },
 }
 

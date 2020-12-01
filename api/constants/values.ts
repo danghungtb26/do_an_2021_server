@@ -27,3 +27,5 @@ export const product_status = {
 export const product_status_list = _.values(product_status)
 
 export const roles_list = [roles.admin, roles.user]
+
+export const category_default = ['Khoa học', 'Công nghệ', 'Tri thức', 'Máy tính']

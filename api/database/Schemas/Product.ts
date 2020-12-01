@@ -14,6 +14,9 @@ export type productInfoType = {
   react_count: number
   comment_count: number
   view_count: number
+  public_type: number
+  deployment_time: string
+  budget: string
   status: number
   created_at: string
   updated_at: string
@@ -30,6 +33,9 @@ const method = {
       react_count: this.react_count,
       comment_count: this.comment_count,
       view_count: this.view_count,
+      public_type: this.public_type,
+      deployment_time: this.deployment_time,
+      budget: this.budget,
       status: this.status,
       created_at: moment(this.created_at).format(),
       updated_at: moment(this.updated_at).format(),
@@ -105,6 +111,20 @@ const Product = new Schema<typeof method>(
       type: SchemaTypes.Number,
       default: 0,
       min: 0,
+    },
+    // trang thai public
+    public_type: {
+      type: SchemaTypes.Number,
+      enum: [0, 1],
+      default: 0,
+    },
+    deployment_time: {
+      type: SchemaTypes.String,
+      default: '',
+    },
+    budget: {
+      type: SchemaTypes.String,
+      default: '',
     },
   },
   {

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { Document } from 'mongoose'
 import table from '../tableName'
 
 const { SchemaTypes, Schema } = mongoose
@@ -32,7 +32,7 @@ const Category = new Schema<typeof method>(
       ref: table.user,
     },
     status: {
-      type: SchemaTypes.ObjectId,
+      type: SchemaTypes.Number,
       enum: [0, 1, 2, 3],
       default: 1,
     },
@@ -40,12 +40,14 @@ const Category = new Schema<typeof method>(
   {
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: 'created_at',
+      updatedAt: 'updated_at',
     },
     autoIndex: true,
   }
 )
 
 Category.method(method)
+
+export type categoryType = Document & typeof method
 
 export default Category
