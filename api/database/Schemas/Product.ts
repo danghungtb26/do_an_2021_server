@@ -4,6 +4,7 @@ import { product_status_list } from '../../constants'
 import table from '../tableName'
 import { config_default_collection } from './utils'
 import { userType } from './User'
+import { categoryType } from './Category'
 
 export type productInfoType = {
   id: string
@@ -40,6 +41,9 @@ const method = {
       created_at: moment(this.created_at).format(),
       updated_at: moment(this.updated_at).format(),
     }
+  },
+  getCategory: function getCategory(): string | categoryType {
+    return this.category
   },
   getAuthor: function getAuthor(): string | userType {
     return this.author
@@ -79,7 +83,7 @@ const Product = new Schema<typeof method>(
     status: {
       type: SchemaTypes.Number,
       enum: product_status_list,
-      default: 2,
+      default: 0,
     },
     react_count: {
       type: SchemaTypes.Number,

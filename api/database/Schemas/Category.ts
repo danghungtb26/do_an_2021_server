@@ -1,4 +1,5 @@
 import mongoose, { Document } from 'mongoose'
+import { category_status } from '../../constants'
 import table from '../tableName'
 
 const { SchemaTypes, Schema } = mongoose
@@ -12,6 +13,25 @@ const method = {
   },
   getNumberOfProduct: function get(): number {
     return this.number_of_product
+  },
+  getJson: function getJson(): {
+    id: string
+    name: string
+    description: string
+    create_by: string
+    status: number
+    created_at: string
+    updated_at: string
+  } {
+    return {
+      id: this._id,
+      name: this.name,
+      description: this.description,
+      create_by: this.create_by,
+      created_at: this.created_at,
+      updated_at: this.created_at,
+      status: this.status,
+    }
   },
 }
 
@@ -33,8 +53,8 @@ const Category = new Schema<typeof method>(
     },
     status: {
       type: SchemaTypes.Number,
-      enum: [0, 1, 2, 3],
-      default: 1,
+      enum: category_status,
+      default: 0,
     },
   },
   {

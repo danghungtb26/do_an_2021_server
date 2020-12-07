@@ -1,6 +1,8 @@
 import { ValidationError } from 'apollo-server-express'
 import { model } from 'mongoose'
-import { getSort, getUser } from '../../commons'
+import { getProductCountOfUser } from '../../database/commons'
+import { roles } from '../../constants'
+import { checkAdmin, getSort, getUser } from '../../commons'
 import { UserSchema, userType } from '../../database/Schemas'
 import { ProductModel } from '../../database/Models'
 import table from '../../database/tableName'
@@ -44,6 +46,23 @@ const UserQuery = {
             count: await ProductModel.find({ ...query_object }).countDocuments(),
           },
         }
+      })
+  },
+
+  // admin page
+  admin_get_user_list: async (_, { query }, { auth }) => {
+    await checkAdmin(auth)
+    const { skip, limit } = query
+    return UserModel.find({ role: roles.user })
+      .skip(skip || 0)
+      .limit(limit || 10)
+      .then(r => {
+        return r.map(e => {
+          return {
+            data: { ...e.getJson(), product_count: getProductCountOfUser(e.getId()) },
+            paging: UserModel.find({ role: roles.user }).countDocuments(),
+          }
+        })
       })
   },
 }

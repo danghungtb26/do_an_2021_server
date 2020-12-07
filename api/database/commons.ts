@@ -1,7 +1,15 @@
 import { ProductModel } from './Models'
 
-export const esss = ''
+export const getProductCountOfCategory: (
+  id: number | string,
+  query?: Record<string, any>
+) => Promise<number> = async (id, query = {}) => {
+  return ProductModel.find({ ...query, category: id }).countDocuments()
+}
 
-export const getProductCountOfCategory: (id: number | string) => Promise<number> = async id => {
-  return ProductModel.find({ status: 2, category: id }).countDocuments()
+export const getProductCountOfUser: (
+  id: number | string,
+  query?: Record<string, any>
+) => Promise<number> = async (id, query = {}) => {
+  return ProductModel.find({ owner: id, ...query }).countDocuments()
 }

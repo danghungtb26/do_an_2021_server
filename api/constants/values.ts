@@ -24,8 +24,24 @@ export const product_status = {
   deleted: 0,
 }
 
+export const product_action_type = {
+  aprove: 'aprove',
+  reject: 'reject',
+  active: 'active',
+  inactive: 'inactive',
+}
+
 export const product_status_list = _.values(product_status)
 
 export const roles_list = [roles.admin, roles.user]
+
+export const category_status = [0, 1, 2, 3]
+
+export const category_status_value = {
+  new: 0,
+  pending: 1,
+  inactive: 2,
+  block: 3,
+}
 
 export const category_default = ['Khoa học', 'Công nghệ', 'Tri thức', 'Máy tính']
