@@ -3,7 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getUserById = exports.getUser = exports.getJwtToken = void 0;
+exports.checkAdmin = exports.getUserById = exports.getUser = exports.getJwtToken = void 0;
+
+var _apolloServerExpress = require("apollo-server-express");
 
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
@@ -68,3 +70,11 @@ const getUserById = id => {
 };
 
 exports.getUserById = getUserById;
+
+const checkAdmin = async authen => {
+  const user = await getUserById((await getUser(authen)).id.toString());
+  if (!user || user.getRole() !== 'admin') throw new _apolloServerExpress.ValidationError('Not authen');
+  return user;
+};
+
+exports.checkAdmin = checkAdmin;

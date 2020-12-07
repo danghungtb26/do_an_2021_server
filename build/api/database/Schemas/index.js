@@ -76,7 +76,19 @@ Object.defineProperty(exports, "SeedSchema", {
   }
 });
 
-var _Category = _interopRequireDefault(require("./Category"));
+var _Category = _interopRequireWildcard(require("./Category"));
+
+Object.keys(_Category).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _Category[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _Category[key];
+    }
+  });
+});
 
 var _User = _interopRequireWildcard(require("./User"));
 
@@ -124,7 +136,19 @@ Object.keys(_Product).forEach(function (key) {
   });
 });
 
-var _Comment = _interopRequireDefault(require("./Comment"));
+var _Comment = _interopRequireWildcard(require("./Comment"));
+
+Object.keys(_Comment).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _Comment[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _Comment[key];
+    }
+  });
+});
 
 var _ReactType = _interopRequireDefault(require("./ReactType"));
 
@@ -132,8 +156,8 @@ var _React = _interopRequireDefault(require("./React"));
 
 var _Seed = _interopRequireDefault(require("./Seed"));
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

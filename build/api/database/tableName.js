@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 const table = {
-  category: 'categorys',
+  category: 'categories',
   user: 'users',
   product: 'products',
   role: 'roles',

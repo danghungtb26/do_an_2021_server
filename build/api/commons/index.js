@@ -42,3 +42,16 @@ Object.keys(_convert).forEach(function (key) {
     }
   });
 });
+
+var _store = require("./store");
+
+Object.keys(_store).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _store[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _store[key];
+    }
+  });
+});

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UserModel = exports.ProductModel = void 0;
+exports.CommentModel = exports.CategoryModel = exports.UserModel = exports.ProductModel = void 0;
 
 var _mongoose = require("mongoose");
 
@@ -17,3 +17,7 @@ const ProductModel = (0, _mongoose.model)(_tableName.default.product, _Schemas.P
 exports.ProductModel = ProductModel;
 const UserModel = (0, _mongoose.model)(_tableName.default.user, _Schemas.UserSchema);
 exports.UserModel = UserModel;
+const CategoryModel = (0, _mongoose.model)(_tableName.default.category, _Schemas.CategorySchema);
+exports.CategoryModel = CategoryModel;
+const CommentModel = (0, _mongoose.model)(_tableName.default.comment, _Schemas.CommentSchema);
+exports.CommentModel = CommentModel;

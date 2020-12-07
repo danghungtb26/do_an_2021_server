@@ -10,6 +10,12 @@ const {
 } = require('apollo-server-express');
 
 const typeDefs = gql`
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+  }
+
   type User {
     id: String!
     name: String
@@ -18,11 +24,23 @@ const typeDefs = gql`
     avatar: String
     phone: String
     role: String
+    status: Int
     product_count: Int
     article_count: Int
     updated_at: String
     created_at: String
-    token: String!
+    token: String
+  }
+
+  type Category {
+    id: String!
+    name: String!
+    product_count: String
+    description: String
+    status: Int
+    create_by: String
+    created_at: String
+    updated_at: String
   }
 
   type Product {
@@ -34,11 +52,19 @@ const typeDefs = gql`
     status: Int!
     owner: User
     author: User
+    category: Category
     react_count: Int
     comment_count: Int
+    budget: Int
+    deployment_time: Int
     view_count: Int
     updated_at: String
     created_at: String
+  }
+
+  type CategoryList {
+    data: [Category]!
+    paging: Page
   }
 
   type Page {
@@ -50,6 +76,19 @@ const typeDefs = gql`
   type ProductList {
     data: [Product]!
     paging: Page!
+  }
+
+  type UserList {
+    data: [User]!
+    paging: Page
+  }
+
+  type Comment {
+    id: String!
+    content: String
+    product: String
+    parent: String
+    user: User
   }
 
   input RegisterUserInput {
@@ -71,11 +110,25 @@ const typeDefs = gql`
     keyword: String
     sort_description: String
     description: String
+    budget: String
+    deployment_time: String
+  }
+
+  input CommentInput {
+    content: String!
+    product_id: String
+    comment_id: String
   }
 
   input SortProduct {
     name: String
     desc: Boolean
+  }
+
+  input Search {
+    name: String
+    type: String
+    value: String
   }
 
   input QueryProductInput {
@@ -86,11 +139,29 @@ const typeDefs = gql`
     sort: [SortProduct]
   }
 
+  input QueryUserInput {
+    limit: Int
+    skip: Int
+    sort: [SortProduct]
+    search: [Search]
+  }
+
+  input AproveInput {
+    id: String
+    type: String
+    category: String
+  }
+
   type Query {
     get_user_info: User!
     get_product_list(query: QueryProductInput): ProductList
+    admin_get_product_list(query: QueryProductInput): ProductList
     get_product_by_id(id: String): Product
     get_user_product_list(query: QueryProductInput): ProductList
+    get_category_list: CategoryList
+
+    admin_get_user_list(query: QueryUserInput!): UserList
+    admin_get_category_list(query: QueryUserInput!): CategoryList
   }
 
   type Mutation {
@@ -100,6 +171,15 @@ const typeDefs = gql`
     editProduct(product: AddProductInput!): Product!
     deleteProduct(id: String!): String
     update_view_product(id: String): Product
+    upload_file(file: Upload!): String
+    comment_product(comment: CommentInput!): Comment
+    edit_comment(comment: CommentInput!): Comment
+    delete_comment(comment_id: String): Boolean
+
+    #admin
+
+    admin_aprove_product(param: AproveInput!): Product
+    admin_active_product(param: AproveInput!): Product
   }
 `;
 var _default = typeDefs;

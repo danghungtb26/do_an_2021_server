@@ -9,7 +9,11 @@ var _apolloServerExpress = require("apollo-server-express");
 
 var _mongoose = require("mongoose");
 
-var _commons = require("../../commons");
+var _commons = require("../../database/commons");
+
+var _constants = require("../../constants");
+
+var _commons2 = require("../../commons");
 
 var _Schemas = require("../../database/Schemas");
 
@@ -24,7 +28,7 @@ const UserQuery = {
   get_user_info: (_, _a, {
     auth
   }) => {
-    return (0, _commons.getUser)(auth).then(({
+    return (0, _commons2.getUser)(auth).then(({
       id
     }) => {
       return UserModel.findById(id).then(user => {
@@ -45,7 +49,7 @@ const UserQuery = {
   }, {
     auth
   }) => {
-    const user = await (0, _commons.getUser)(auth);
+    const user = await (0, _commons2.getUser)(auth);
     const query_object = user_query && user_query !== user.id ? {
       owner: user_query,
       status: 2
@@ -53,7 +57,7 @@ const UserQuery = {
       owner: user.id
     };
     return _Models.ProductModel.find({ ...query_object
-    }).populate('author').populate('owner').skip(skip || 0).limit(limit || 10).sort((0, _commons.getSort)(sort !== null && sort !== void 0 ? sort : [{
+    }).populate('author').populate('owner').skip(skip || 0).limit(limit || 10).sort((0, _commons2.getSort)(sort !== null && sort !== void 0 ? sort : [{
       name: 'updated_at',
       desc: false
     }])).then(async r => {
@@ -69,6 +73,32 @@ const UserQuery = {
           }).countDocuments()
         }
       };
+    });
+  },
+  // admin page
+  admin_get_user_list: async (_, {
+    query
+  }, {
+    auth
+  }) => {
+    await (0, _commons2.checkAdmin)(auth);
+    const {
+      skip,
+      limit
+    } = query;
+    return UserModel.find({
+      role: _constants.roles.user
+    }).skip(skip || 0).limit(limit || 10).then(r => {
+      return r.map(e => {
+        return {
+          data: { ...e.getJson(),
+            product_count: (0, _commons.getProductCountOfUser)(e.getId())
+          },
+          paging: UserModel.find({
+            role: _constants.roles.user
+          }).countDocuments()
+        };
+      });
     });
   }
 };
