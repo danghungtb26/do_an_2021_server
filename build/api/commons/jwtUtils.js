@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.checkAdmin = exports.getUserById = exports.getUser = exports.getJwtToken = void 0;
+exports.getFilter = exports.checkAdmin = exports.getUserById = exports.getUser = exports.getJwtToken = void 0;
 
 var _apolloServerExpress = require("apollo-server-express");
 
@@ -78,3 +78,13 @@ const checkAdmin = async authen => {
 };
 
 exports.checkAdmin = checkAdmin;
+
+const getFilter = async f => {
+  try {
+    return JSON.parse(f);
+  } catch (error) {
+    return {};
+  }
+};
+
+exports.getFilter = getFilter;

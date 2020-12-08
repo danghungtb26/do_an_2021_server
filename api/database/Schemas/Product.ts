@@ -14,10 +14,12 @@ export type productInfoType = {
   sort_description: string
   react_count: number
   comment_count: number
+  attachment: Array<string>
   view_count: number
   public_type: number
-  deployment_time: string
-  budget: string
+  deployment_time: number
+  high_light: string
+  budget: number
   status: number
   created_at: string
   updated_at: string
@@ -34,8 +36,10 @@ const method = {
       react_count: this.react_count,
       comment_count: this.comment_count,
       view_count: this.view_count,
+      attachment: this.attachment,
       public_type: this.public_type,
       deployment_time: this.deployment_time,
+      high_light: this.high_light,
       budget: this.budget,
       status: this.status,
       created_at: moment(this.created_at).format(),
@@ -104,8 +108,8 @@ const Product = new Schema<typeof method>(
       type: SchemaTypes.Array,
     },
     banner: {
-      type: SchemaTypes.ObjectId,
-      ref: table.attachment,
+      type: Array,
+      default: [],
     },
     admin: {
       type: SchemaTypes.ObjectId,
@@ -116,6 +120,10 @@ const Product = new Schema<typeof method>(
       default: 0,
       min: 0,
     },
+    high_light: {
+      type: SchemaTypes.Boolean,
+      default: false,
+    },
     // trang thai public
     public_type: {
       type: SchemaTypes.Number,
@@ -123,11 +131,11 @@ const Product = new Schema<typeof method>(
       default: 0,
     },
     deployment_time: {
-      type: SchemaTypes.String,
+      type: SchemaTypes.Number,
       default: '',
     },
     budget: {
-      type: SchemaTypes.String,
+      type: SchemaTypes.Number,
       default: '',
     },
   },

@@ -52,3 +52,11 @@ export const checkAdmin: (auth: string) => Promise<userType | null> = async auth
 
   return user
 }
+
+export const getFilter: (f: string) => Promise<Record<string, any>> = async f => {
+  try {
+    return JSON.parse(f)
+  } catch (error) {
+    return {}
+  }
+}

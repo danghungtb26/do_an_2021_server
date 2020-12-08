@@ -8,13 +8,20 @@ const addProduct = async (product, auth) => {
   const user = await getUser(auth).then(r => {
     return getUserById(`${r.id}`)
   })
-  console.log('🚀 ~ file: product.ts ~ line 15 ~ addProduct ~ user', user)
 
   if (!user || user.getRole() !== roles.user) throw new ValidationError('User not found!')
 
   return new Promise(resolve => {
     // chạy cùng session để tạo transection
-    const { title, description, keyword, sort_description, budget, deployment_time } = product
+    const {
+      title,
+      description,
+      keyword,
+      sort_description,
+      budget,
+      deployment_time,
+      attachment,
+    } = product
     const newProduct = new ProductModel({
       title,
       description,
@@ -22,7 +29,7 @@ const addProduct = async (product, auth) => {
       budget,
       deployment_time,
       sort_description,
-
+      attachment,
       author: user.getId(),
       owner: user.getId(),
     })
@@ -168,6 +175,35 @@ const mutation = {
       {
         $set: {
           status: newStatus,
+          admin: user?.getId(),
+        },
+      },
+      { new: true }
+    )
+      .populate('author')
+      .populate('owner')
+      .populate('category')
+      .then(r => {
+        if (r)
+          return {
+            ...r?.getJson(),
+            category: (r?.getCategory() as categoryType)?.getJson(),
+            author: (r?.getAuthor() as userType)?.getJson(),
+            owner: (r?.getOwner() as userType)?.getJson(),
+          }
+
+        throw new ValidationError('Not found')
+      })
+  },
+
+  admin_high_light_product: async (_, { param }, { auth }) => {
+    const user = await checkAdmin(auth)
+    const { id, high_light } = param
+    return ProductModel.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          high_light,
           admin: user?.getId(),
         },
       },

@@ -14,6 +14,7 @@ const typeDefs = gql`
     filename: String!
     mimetype: String!
     encoding: String!
+    id: String
   }
 
   type User {
@@ -56,6 +57,8 @@ const typeDefs = gql`
     react_count: Int
     comment_count: Int
     budget: Int
+    high_light: Boolean
+    attachment: [String]
     deployment_time: Int
     view_count: Int
     updated_at: String
@@ -109,6 +112,7 @@ const typeDefs = gql`
     title: String
     keyword: String
     sort_description: String
+    attachment: [String]
     description: String
     budget: String
     deployment_time: String
@@ -137,6 +141,8 @@ const typeDefs = gql`
     skip: Int
     keyword: String
     sort: [SortProduct]
+    category: String
+    filter: String
   }
 
   input QueryUserInput {
@@ -152,9 +158,20 @@ const typeDefs = gql`
     category: String
   }
 
+  input HighLightInpit {
+    id: String
+    high_light: Boolean
+  }
+
   type Query {
     get_user_info: User!
     get_product_list(query: QueryProductInput): ProductList
+    get_product_new(query: QueryProductInput): ProductList
+
+    get_product_highlight(query: QueryProductInput): ProductList
+
+    get_product_banner(query: QueryProductInput): ProductList
+
     admin_get_product_list(query: QueryProductInput): ProductList
     get_product_by_id(id: String): Product
     get_user_product_list(query: QueryProductInput): ProductList
@@ -171,7 +188,7 @@ const typeDefs = gql`
     editProduct(product: AddProductInput!): Product!
     deleteProduct(id: String!): String
     update_view_product(id: String): Product
-    upload_file(file: Upload!): String
+    upload_file(file: Upload!): File
     comment_product(comment: CommentInput!): Comment
     edit_comment(comment: CommentInput!): Comment
     delete_comment(comment_id: String): Boolean
@@ -180,6 +197,7 @@ const typeDefs = gql`
 
     admin_aprove_product(param: AproveInput!): Product
     admin_active_product(param: AproveInput!): Product
+    admin_high_light_product(param: HighLightInpit!): Product
   }
 `;
 var _default = typeDefs;

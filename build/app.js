@@ -12,6 +12,8 @@ var _config = require("./api/database/config");
 
 var _config2 = require("./api/graphql/config");
 
+var _commons = require("./api/commons");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import http from 'http'
@@ -75,6 +77,10 @@ app.get('/abc', (req, res) => {
 //   console.log('TCL: rou', rou)
 // })
 
+app.get('/image/:id', (req, res) => {
+  console.log('🚀 ~ file: app.js ~ line 82 ~ app.use ~ req', req.params);
+  (0, _commons.showFile)(req.params.id, res); // res.send({ a: 'as' })
+});
 app.use((err, req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Authorization');

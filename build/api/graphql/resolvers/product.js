@@ -17,7 +17,6 @@ const addProduct = async (product, auth) => {
   const user = await (0, _commons.getUser)(auth).then(r => {
     return (0, _commons.getUserById)(`${r.id}`);
   });
-  console.log('🚀 ~ file: product.ts ~ line 15 ~ addProduct ~ user', user);
   if (!user || user.getRole() !== _constants.roles.user) throw new _apolloServerExpress.ValidationError('User not found!');
   return new Promise(resolve => {
     // chạy cùng session để tạo transection
@@ -27,7 +26,8 @@ const addProduct = async (product, auth) => {
       keyword,
       sort_description,
       budget,
-      deployment_time
+      deployment_time,
+      attachment
     } = product;
     const newProduct = new _Models.ProductModel({
       title,
@@ -36,6 +36,7 @@ const addProduct = async (product, auth) => {
       budget,
       deployment_time,
       sort_description,
+      attachment,
       author: user.getId(),
       owner: user.getId()
     });
@@ -196,6 +197,34 @@ const mutation = {
         category: r === null || r === void 0 ? void 0 : (_r$getCategory3 = r.getCategory()) === null || _r$getCategory3 === void 0 ? void 0 : _r$getCategory3.getJson(),
         author: r === null || r === void 0 ? void 0 : (_r$getAuthor2 = r.getAuthor()) === null || _r$getAuthor2 === void 0 ? void 0 : _r$getAuthor2.getJson(),
         owner: r === null || r === void 0 ? void 0 : (_r$getOwner2 = r.getOwner()) === null || _r$getOwner2 === void 0 ? void 0 : _r$getOwner2.getJson()
+      };
+      throw new _apolloServerExpress.ValidationError('Not found');
+    });
+  },
+  admin_high_light_product: async (_, {
+    param
+  }, {
+    auth
+  }) => {
+    const user = await (0, _commons.checkAdmin)(auth);
+    const {
+      id,
+      high_light
+    } = param;
+    return _Models.ProductModel.findByIdAndUpdate(id, {
+      $set: {
+        high_light,
+        admin: user === null || user === void 0 ? void 0 : user.getId()
+      }
+    }, {
+      new: true
+    }).populate('author').populate('owner').populate('category').then(r => {
+      var _r$getCategory4, _r$getAuthor3, _r$getOwner3;
+
+      if (r) return { ...(r === null || r === void 0 ? void 0 : r.getJson()),
+        category: r === null || r === void 0 ? void 0 : (_r$getCategory4 = r.getCategory()) === null || _r$getCategory4 === void 0 ? void 0 : _r$getCategory4.getJson(),
+        author: r === null || r === void 0 ? void 0 : (_r$getAuthor3 = r.getAuthor()) === null || _r$getAuthor3 === void 0 ? void 0 : _r$getAuthor3.getJson(),
+        owner: r === null || r === void 0 ? void 0 : (_r$getOwner3 = r.getOwner()) === null || _r$getOwner3 === void 0 ? void 0 : _r$getOwner3.getJson()
       };
       throw new _apolloServerExpress.ValidationError('Not found');
     });
