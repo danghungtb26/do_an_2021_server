@@ -44,7 +44,7 @@ const CategoryQuery = {
       limit
     } = query;
     return _Models.CategoryModel.find().sort({
-      name: 1
+      created_at: -1
     }).skip(skip || 0).limit(limit || 10).then(async r => {
       return {
         data: r.map(async e => {

@@ -3,13 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CommentModel = exports.CategoryModel = exports.UserModel = exports.ProductModel = void 0;
+exports.ContactModel = exports.CommentModel = exports.CategoryModel = exports.UserModel = exports.ProductModel = void 0;
 
 var _mongoose = require("mongoose");
 
 var _Schemas = require("../Schemas");
 
 var _tableName = _interopRequireDefault(require("../tableName"));
+
+var _Contact = _interopRequireDefault(require("../Schemas/Contact"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21,3 +23,5 @@ const CategoryModel = (0, _mongoose.model)(_tableName.default.category, _Schemas
 exports.CategoryModel = CategoryModel;
 const CommentModel = (0, _mongoose.model)(_tableName.default.comment, _Schemas.CommentSchema);
 exports.CommentModel = CommentModel;
+const ContactModel = (0, _mongoose.model)(_tableName.default.contact, _Contact.default);
+exports.ContactModel = ContactModel;

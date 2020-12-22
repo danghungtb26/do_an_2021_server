@@ -57,13 +57,16 @@ const UserQuery = {
       owner: user.id
     };
     return _Models.ProductModel.find({ ...query_object
-    }).populate('author').populate('owner').skip(skip || 0).limit(limit || 10).sort((0, _commons2.getSort)(sort !== null && sort !== void 0 ? sort : [{
+    }).populate('author').populate('owner').populate('category').skip(skip || 0).limit(limit || 10).sort((0, _commons2.getSort)(sort !== null && sort !== void 0 ? sort : [{
       name: 'updated_at',
-      desc: false
+      desc: true
     }])).then(async r => {
       return {
         data: r.map(e => {
+          var _e$getCategory;
+
           return { ...e.getJson(),
+            category: e === null || e === void 0 ? void 0 : (_e$getCategory = e.getCategory()) === null || _e$getCategory === void 0 ? void 0 : _e$getCategory.getJson(),
             author: e.getAuthor().getJson(),
             owner: e.getOwner().getJson()
           };

@@ -20,7 +20,8 @@ const table = {
   attachment: 'attachments',
   comment: 'comments',
   reactType: 'react_types',
-  seed: 'seeds'
+  seed: 'seeds',
+  contact: 'contacts'
 };
 var _default = table;
 exports.default = _default;

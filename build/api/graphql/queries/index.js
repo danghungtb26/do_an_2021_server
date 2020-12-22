@@ -23,11 +23,14 @@ var _products = _interopRequireDefault(require("./products"));
 
 var _categories = _interopRequireDefault(require("./categories"));
 
+var _contact = _interopRequireDefault(require("./contact"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const queries = { ..._users.default,
   ..._products.default,
-  ..._categories.default
+  ..._categories.default,
+  ..._contact.default
 };
 var _default = queries;
 exports.default = _default;
