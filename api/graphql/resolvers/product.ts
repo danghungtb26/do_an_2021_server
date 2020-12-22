@@ -95,6 +95,7 @@ const mutation = {
   },
 
   update_view_product: (_, { id }) => {
+    console.log('🚀 ~ file: product.ts ~ line 98 ~ id', id)
     return ProductModel.findByIdAndUpdate(
       id,
       {

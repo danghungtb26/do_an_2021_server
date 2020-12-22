@@ -26,7 +26,7 @@ const CategoryQuery = {
     await checkAdmin(auth)
     const { skip, limit } = query
     return CategoryModel.find()
-      .sort({ name: 1 })
+      .sort({ created_at: -1 })
       .skip(skip || 0)
       .limit(limit || 10)
       .then(async r => {

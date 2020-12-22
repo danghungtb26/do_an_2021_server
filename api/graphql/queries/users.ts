@@ -3,7 +3,7 @@ import { model } from 'mongoose'
 import { getProductCountOfUser } from '../../database/commons'
 import { roles } from '../../constants'
 import { checkAdmin, getSort, getUser } from '../../commons'
-import { UserSchema, userType } from '../../database/Schemas'
+import { categoryType, UserSchema, userType } from '../../database/Schemas'
 import { ProductModel } from '../../database/Models'
 import table from '../../database/tableName'
 
@@ -30,14 +30,16 @@ const UserQuery = {
     return ProductModel.find({ ...query_object })
       .populate('author')
       .populate('owner')
+      .populate('category')
       .skip(skip || 0)
       .limit(limit || 10)
-      .sort(getSort(sort ?? [{ name: 'updated_at', desc: false }]))
+      .sort(getSort(sort ?? [{ name: 'updated_at', desc: true }]))
       .then(async r => {
         return {
           data: r.map(e => {
             return {
               ...e.getJson(),
+              category: (e?.getCategory() as categoryType)?.getJson(),
               author: (e.getAuthor() as userType).getJson(),
               owner: (e.getOwner() as userType).getJson(),
             }

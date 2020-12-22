@@ -15,6 +15,7 @@ const table = {
   comment: 'comments',
   reactType: 'react_types',
   seed: 'seeds',
+  contact: 'contacts',
 }
 
 export default table

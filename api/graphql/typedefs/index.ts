@@ -56,6 +56,18 @@ const typeDefs = gql`
     created_at: String
   }
 
+  type Contact {
+    id: String
+    info: String
+    from_user: User
+    to_user: User
+  }
+
+  type ContactList {
+    data: [Contact]!
+    paging: Page
+  }
+
   type CategoryList {
     data: [Category]!
     paging: Page
@@ -154,6 +166,19 @@ const typeDefs = gql`
     high_light: Boolean
   }
 
+  input CategoryInput {
+    id: String
+    title: String
+    description: String
+    status: Int
+  }
+
+  input ContactInput {
+    to_user: String
+    product_id: String
+    info: String
+  }
+
   type Query {
     get_user_info: User!
     get_product_list(query: QueryProductInput): ProductList
@@ -170,6 +195,7 @@ const typeDefs = gql`
 
     admin_get_user_list(query: QueryUserInput!): UserList
     admin_get_category_list(query: QueryUserInput!): CategoryList
+    admin_get_contact_list(query: QueryUserInput!): ContactList
   }
 
   type Mutation {
@@ -183,12 +209,16 @@ const typeDefs = gql`
     comment_product(comment: CommentInput!): Comment
     edit_comment(comment: CommentInput!): Comment
     delete_comment(comment_id: String): Boolean
+    send_contact(param: ContactInput): Contact
 
     #admin
 
     admin_aprove_product(param: AproveInput!): Product
     admin_active_product(param: AproveInput!): Product
     admin_high_light_product(param: HighLightInpit!): Product
+
+    admin_add_category(param: CategoryInput!): Category
+    admin_edit_category(param: CategoryInput!): Category
   }
 `
 
