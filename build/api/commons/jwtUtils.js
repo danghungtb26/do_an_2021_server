@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getUserById = exports.getUser = exports.getJwtToken = void 0;
+exports.getFilter = exports.checkAdmin = exports.getUserById = exports.getUser = exports.getJwtToken = void 0;
 
 var _apolloServerExpress = require("apollo-server-express");
 
@@ -51,9 +51,9 @@ const getUser = auth => {
     });
 
     _jsonwebtoken.default.verify(token, _config.secretkey, (err, decoded) => {
-      if (err) throw new _apolloServerExpress.AuthenticationError('invalid token!');
+      // if (err)
       resolve({
-        id: decoded.id
+        id: decoded === null || decoded === void 0 ? void 0 : decoded.id
       });
     });
   });
@@ -70,3 +70,21 @@ const getUserById = id => {
 };
 
 exports.getUserById = getUserById;
+
+const checkAdmin = async authen => {
+  const user = await getUserById((await getUser(authen)).id.toString());
+  if (!user || user.getRole() !== 'admin') throw new _apolloServerExpress.ValidationError('Not authen');
+  return user;
+};
+
+exports.checkAdmin = checkAdmin;
+
+const getFilter = async f => {
+  try {
+    return JSON.parse(f);
+  } catch (error) {
+    return {};
+  }
+};
+
+exports.getFilter = getFilter;

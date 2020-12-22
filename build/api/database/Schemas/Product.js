@@ -28,10 +28,18 @@ const method = {
       react_count: this.react_count,
       comment_count: this.comment_count,
       view_count: this.view_count,
+      attachment: this.attachment,
+      public_type: this.public_type,
+      deployment_time: this.deployment_time,
+      high_light: this.high_light,
+      budget: this.budget,
       status: this.status,
       created_at: (0, _moment.default)(this.created_at).format(),
       updated_at: (0, _moment.default)(this.updated_at).format()
     };
+  },
+  getCategory: function getCategory() {
+    return this.category;
   },
   getAuthor: function getAuthor() {
     return this.author;
@@ -69,7 +77,7 @@ const Product = new _mongoose.Schema({
   status: {
     type: _mongoose.SchemaTypes.Number,
     enum: _constants.product_status_list,
-    default: 2
+    default: 0
   },
   react_count: {
     type: _mongoose.SchemaTypes.Number,
@@ -90,8 +98,8 @@ const Product = new _mongoose.Schema({
     type: _mongoose.SchemaTypes.Array
   },
   banner: {
-    type: _mongoose.SchemaTypes.ObjectId,
-    ref: _tableName.default.attachment
+    type: Array,
+    default: []
   },
   admin: {
     type: _mongoose.SchemaTypes.ObjectId,
@@ -101,6 +109,24 @@ const Product = new _mongoose.Schema({
     type: _mongoose.SchemaTypes.Number,
     default: 0,
     min: 0
+  },
+  high_light: {
+    type: _mongoose.SchemaTypes.Boolean,
+    default: false
+  },
+  // trang thai public
+  public_type: {
+    type: _mongoose.SchemaTypes.Number,
+    enum: [0, 1],
+    default: 0
+  },
+  deployment_time: {
+    type: _mongoose.SchemaTypes.Number,
+    default: ''
+  },
+  budget: {
+    type: _mongoose.SchemaTypes.Number,
+    default: ''
   }
 }, { ..._utils.config_default_collection
 });

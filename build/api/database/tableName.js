@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 const table = {
-  category: 'categorys',
+  category: 'categories',
   user: 'users',
   product: 'products',
   role: 'roles',
@@ -20,7 +20,8 @@ const table = {
   attachment: 'attachments',
   comment: 'comments',
   reactType: 'react_types',
-  seed: 'seeds'
+  seed: 'seeds',
+  contact: 'contacts'
 };
 var _default = table;
 exports.default = _default;

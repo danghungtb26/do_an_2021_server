@@ -5,7 +5,7 @@ export const baseUrlVps = '149.28.134.173'
 // export const hostApi = 8000
 
 export const hostDatabase = 6666
-export const hostApi = 3000
+export const hostApi = 6161
 export const database_name = 'do_an_2021'
 
 // export const databaseName = `mongodb://${baseUrl}:${hostDatabase}/${database_name}?replicaSet=rs`

@@ -7,6 +7,7 @@ import './api/database'
 import cors from 'cors'
 import { hostApi } from './api/database/config'
 import { setupGraphql, setuphttp } from './api/graphql/config'
+import { showFile } from './api/commons'
 
 // import users from "./routes/users";
 const path = require('path')
@@ -77,6 +78,12 @@ app.get('/abc', (req, res) => {
 // _.uniq(list).forEach(rou => {
 //   console.log('TCL: rou', rou)
 // })
+
+app.get('/image/:id', (req, res) => {
+  console.log('🚀 ~ file: app.js ~ line 82 ~ app.use ~ req', req.params)
+  showFile(req.params.id, res)
+  // res.send({ a: 'as' })
+})
 
 app.use((err, req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')

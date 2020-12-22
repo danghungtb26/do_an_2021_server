@@ -9,9 +9,12 @@ export type userInfoType = {
   id: string | number
   name: string
   introduction: string
+  avatar: string
   email: string
   phone: string
   role: string
+  product_count: number
+  article_count: number
   created_at: string
   updated_at: string
 }
@@ -21,9 +24,12 @@ const method = {
       id: this._id,
       name: this.name,
       introduction: this.introduction,
+      avatar: this.avatar,
       email: this.email,
       phone: this.phone,
       role: this.role,
+      product_count: this.product_count,
+      article_count: this.article_count,
       created_at: moment(this.created_at).format(),
       updated_at: moment(this.updated_at).format(),
     }
@@ -69,14 +75,16 @@ const method = {
    * @param callback
    * func này sử dụng salt để generate ra hash_password lưu vào trong database
    */
-  generate: function generate(callback?: (error, success) => void): Promise<any> {
+  generate: function generate(
+    callback?: (error: any, success?: string | null) => void
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
-      bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.genSalt(10, (err: any, salt: any) => {
         if (err) {
           if (typeof callback === 'function') callback(err, null)
           reject(err)
         }
-        bcrypt.hash(this.password, salt, (err2, hash) => {
+        bcrypt.hash(this.password, salt, (err2: any, hash: string) => {
           if (typeof callback === 'function') callback(err2, hash)
           if (err2) {
             reject(err2)
@@ -115,6 +123,10 @@ const User = new Schema<typeof method>(
       default: null,
     },
     product_count: {
+      type: SchemaTypes.Number,
+      default: 0,
+    },
+    article_count: {
       type: SchemaTypes.Number,
       default: 0,
     },

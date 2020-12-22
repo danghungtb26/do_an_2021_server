@@ -7,6 +7,8 @@ exports.default = void 0;
 
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
+var _constants = require("../../constants");
+
 var _tableName = _interopRequireDefault(require("../tableName"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -24,6 +26,17 @@ const method = {
   },
   getNumberOfProduct: function get() {
     return this.number_of_product;
+  },
+  getJson: function getJson() {
+    return {
+      id: this._id,
+      name: this.name,
+      description: this.description,
+      create_by: this.create_by,
+      created_at: this.created_at,
+      updated_at: this.created_at,
+      status: this.status
+    };
   }
 };
 const Category = new Schema({
@@ -42,14 +55,14 @@ const Category = new Schema({
     ref: _tableName.default.user
   },
   status: {
-    type: SchemaTypes.ObjectId,
-    enum: [0, 1, 2, 3],
-    default: 1
+    type: SchemaTypes.Number,
+    enum: _constants.category_status,
+    default: 0
   }
 }, {
   timestamps: {
     createdAt: 'created_at',
-    updatedAt: 'created_at'
+    updatedAt: 'updated_at'
   },
   autoIndex: true
 });

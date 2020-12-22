@@ -44,7 +44,9 @@ const resolvers = {
   Query: { ..._queries.default
   },
   Mutation: { ..._resolvers.UserResolvers,
-    ..._resolvers.ProductResolvers
+    ..._resolvers.ProductResolvers,
+    ..._resolvers.UploadResolvers,
+    ..._resolvers.resolver
   }
 };
 const server = new ApolloServer({

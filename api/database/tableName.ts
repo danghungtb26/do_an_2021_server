@@ -1,5 +1,5 @@
 const table = {
-  category: 'categorys',
+  category: 'categories',
   user: 'users',
   product: 'products',
   role: 'roles',
@@ -15,6 +15,7 @@ const table = {
   comment: 'comments',
   reactType: 'react_types',
   seed: 'seeds',
+  contact: 'contacts',
 }
 
 export default table

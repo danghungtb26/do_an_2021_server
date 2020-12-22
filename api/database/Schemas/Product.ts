@@ -4,6 +4,7 @@ import { product_status_list } from '../../constants'
 import table from '../tableName'
 import { config_default_collection } from './utils'
 import { userType } from './User'
+import { categoryType } from './Category'
 
 export type productInfoType = {
   id: string
@@ -13,7 +14,12 @@ export type productInfoType = {
   sort_description: string
   react_count: number
   comment_count: number
+  attachment: Array<string>
   view_count: number
+  public_type: number
+  deployment_time: number
+  high_light: string
+  budget: number
   status: number
   created_at: string
   updated_at: string
@@ -30,10 +36,18 @@ const method = {
       react_count: this.react_count,
       comment_count: this.comment_count,
       view_count: this.view_count,
+      attachment: this.attachment,
+      public_type: this.public_type,
+      deployment_time: this.deployment_time,
+      high_light: this.high_light,
+      budget: this.budget,
       status: this.status,
       created_at: moment(this.created_at).format(),
       updated_at: moment(this.updated_at).format(),
     }
+  },
+  getCategory: function getCategory(): string | categoryType {
+    return this.category
   },
   getAuthor: function getAuthor(): string | userType {
     return this.author
@@ -73,7 +87,7 @@ const Product = new Schema<typeof method>(
     status: {
       type: SchemaTypes.Number,
       enum: product_status_list,
-      default: 2,
+      default: 0,
     },
     react_count: {
       type: SchemaTypes.Number,
@@ -94,8 +108,8 @@ const Product = new Schema<typeof method>(
       type: SchemaTypes.Array,
     },
     banner: {
-      type: SchemaTypes.ObjectId,
-      ref: table.attachment,
+      type: Array,
+      default: [],
     },
     admin: {
       type: SchemaTypes.ObjectId,
@@ -105,6 +119,24 @@ const Product = new Schema<typeof method>(
       type: SchemaTypes.Number,
       default: 0,
       min: 0,
+    },
+    high_light: {
+      type: SchemaTypes.Boolean,
+      default: false,
+    },
+    // trang thai public
+    public_type: {
+      type: SchemaTypes.Number,
+      enum: [0, 1],
+      default: 0,
+    },
+    deployment_time: {
+      type: SchemaTypes.Number,
+      default: '',
+    },
+    budget: {
+      type: SchemaTypes.Number,
+      default: '',
     },
   },
   {

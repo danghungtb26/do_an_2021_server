@@ -1,4 +1,4 @@
-import { AuthenticationError } from 'apollo-server-express'
+import { AuthenticationError, ValidationError } from 'apollo-server-express'
 import jwt from 'jsonwebtoken'
 import { secretkey } from '../database/config'
 import { UserModel } from '../database/Models'
@@ -33,8 +33,8 @@ export const getUser: (auth: string) => Promise<{ id: string | number }> = auth 
     if (!token) resolve({ id: null })
 
     jwt.verify(token, secretkey, (err, decoded) => {
-      if (err) throw new AuthenticationError('invalid token!')
-      resolve({ id: decoded.id })
+      // if (err)
+      resolve({ id: decoded?.id })
     })
   })
 }
@@ -42,6 +42,21 @@ export const getUser: (auth: string) => Promise<{ id: string | number }> = auth 
 /**
  * func tim user theo id
  */
-export const getUserById: (id: string) => Promise<userType> = id => {
+export const getUserById: (id: string) => Promise<userType | null> = id => {
   return UserModel.findById(id).then(r => r)
+}
+
+export const checkAdmin: (auth: string) => Promise<userType | null> = async authen => {
+  const user = await getUserById((await getUser(authen)).id.toString())
+  if (!user || user.getRole() !== 'admin') throw new ValidationError('Not authen')
+
+  return user
+}
+
+export const getFilter: (f: string) => Promise<Record<string, any>> = async f => {
+  try {
+    return JSON.parse(f)
+  } catch (error) {
+    return {}
+  }
 }
